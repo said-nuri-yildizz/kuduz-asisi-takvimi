@@ -32,14 +32,19 @@
                         data-bs-parent="#accordionFlushExample">
                         <div class="accordion-body">
                             <p>
-                                Uygulamamızı kullanan herkesin <a href="politikalarimiz.html">politikalarımız</a>ın tamamını okuduğu ve
+                                Uygulamamızı kullanan herkesin <a href="politikalarimiz.html">politikalarımız</a>ın
+                                tamamını okuduğu ve
                                 kabul ettiği
                                 varsayılır. Eğer politikalarımızı kabul etmiyorsanız uygulamamızı kullanmayınız.
-                                Politiklarımızın tamamını okumak için <a href="politikalarimiz.html">buraya tıklayınız.</a>
+                                Politiklarımızın tamamını okumak için <a href="politikalarimiz.html">buraya
+                                    tıklayınız.</a>
                             </p>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="text-center">
+                <p id="anlik-tarih" class="font-monospace fs-4"></p>
             </div>
             <table class="table table-striped table-bordered">
                 <tbody>
@@ -76,8 +81,7 @@
                 <h1 class="fs-4">Aşı Tarihlerini Neye Göre Ayarladık?</h1>
                 <p>
                     Kuduz aşısı tarihlerini resmi devlet sitesine göre ayarladık.
-                    <a class="text-dark"
-                        href="https://hsgm.saglik.gov.tr/depo/birimler/zoonotik-vektorel-hastaliklar-db/zoonotik-hastaliklar/2-Kuduz/6-Rehbler/Kuduz_Profilaksi_Rehberi.pdf">Kaynağa
+                    <a class="text-dark" href="/kaynak.html">Kaynağa
                         gitmek için buraya tıklayınız.</a>
                 </p>
             </div>
@@ -92,36 +96,48 @@
         </div>
     </div>
     <script>
-        Date.prototype.addDays = function (days) {
-            var date = new Date(this.valueOf());
-            date.setDate(date.getDate() + days);
-            return date;
+        function takvimiOlustur() {
+            Date.prototype.addDays = function (days) {
+                var date = new Date(this.valueOf());
+                date.setDate(date.getDate() + days);
+                return date;
+            }
+            var tarih = new Date();
+            var saat = tarih.getHours();
+            var dakika = tarih.getMinutes();
+            var saniye = tarih.getSeconds();
+            if (saat.toString().length == 1) saat = "0" + saat;
+            if (dakika.toString().length == 1) dakika = "0" + dakika;
+            if (saniye.toString().length == 1) saniye = "0" + saniye;
+            document.getElementById("anlik-tarih").innerText = saat + ":" + dakika + ":" + saniye
+            var gun = tarih.getDate();
+            var ay = (tarih.getMonth() + 1);
+            if (gun.toString().length == 1) gun = "0" + gun;
+            if (ay.toString().length == 1) ay = "0" + ay;
+            document.getElementById("asi-tarihi-1").innerText = gun + "." + ay + "." + tarih.getFullYear();
+            tarih = tarih.addDays(3)
+            var gun = tarih.getDate();
+            var ay = (tarih.getMonth() + 1);
+            if (gun.toString().length == 1) gun = "0" + gun;
+            if (ay.toString().length == 1) ay = "0" + ay;
+            document.getElementById("asi-tarihi-2").innerText = gun + "." + ay + "." + tarih.getFullYear();
+            tarih = tarih.addDays(4)
+            var gun = tarih.getDate();
+            var ay = (tarih.getMonth() + 1);
+            if (gun.toString().length == 1) gun = "0" + gun;
+            if (ay.toString().length == 1) ay = "0" + ay;
+            document.getElementById("asi-tarihi-3").innerText = gun + "." + ay + "." + tarih.getFullYear();
+            tarih = tarih.addDays(14)
+            var gun = tarih.getDate();
+            var ay = (tarih.getMonth() + 1);
+            if (gun.toString().length == 1) gun = "0" + gun;
+            if (ay.toString().length == 1) ay = "0" + ay;
+            document.getElementById("asi-tarihi-4").innerText = gun + "." + ay + "." + tarih.getFullYear();
         }
-        var tarih = new Date();
-        // document.getElementById("anlik-tarih").innerText = tarih;
-        var gun = tarih.getDate();
-        var ay = (tarih.getMonth() + 1);
-        if (gun.toString().length == 1) gun = "0" + gun;
-        if (ay.toString().length == 1) ay = "0" + ay;
-        document.getElementById("asi-tarihi-1").innerText = gun + "." + ay + "." + tarih.getFullYear();
-        tarih = tarih.addDays(3)
-        var gun = tarih.getDate();
-        var ay = (tarih.getMonth() + 1);
-        if (gun.toString().length == 1) gun = "0" + gun;
-        if (ay.toString().length == 1) ay = "0" + ay;
-        document.getElementById("asi-tarihi-2").innerText = gun + "." + ay + "." + tarih.getFullYear();
-        tarih = tarih.addDays(4)
-        var gun = tarih.getDate();
-        var ay = (tarih.getMonth() + 1);
-        if (gun.toString().length == 1) gun = "0" + gun;
-        if (ay.toString().length == 1) ay = "0" + ay;
-        document.getElementById("asi-tarihi-3").innerText = gun + "." + ay + "." + tarih.getFullYear();
-        tarih = tarih.addDays(14)
-        var gun = tarih.getDate();
-        var ay = (tarih.getMonth() + 1);
-        if (gun.toString().length == 1) gun = "0" + gun;
-        if (ay.toString().length == 1) ay = "0" + ay;
-        document.getElementById("asi-tarihi-4").innerText = gun + "." + ay + "." + tarih.getFullYear();
+        takvimiOlustur();
+        setInterval(() => {
+            takvimiOlustur();
+        }, 500);
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
