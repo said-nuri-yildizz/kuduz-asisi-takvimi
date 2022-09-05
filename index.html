@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="tr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kuduz Aşısı Takvimi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+
+</head>
+
+<body class="bg-success bg-opacity-50 lead">
+    <div class="container">
+        <div class="mt-3 mb-3 p-3 bg-white border border-1 shadow-sm rounded">
+            <div class="row p-3">
+                <div class="col-12 text-center">
+                    <h1 class="fs-4 fw-normal">Kuduz Aşısı Takvimi</h1>
+                </div>
+            </div>
+        </div>
+        <div class="mt-3 mb-3 p-3 bg-white border border-1 shadow-sm rounded">
+            <div class="accordion accordion-flush mb-3 border border-1" id="accordionFlushExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                            Politikalarımız hakkında
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+                        data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            <p>
+                                Uygulamamızı kullanan herkesin <a href="politikalarimiz.html">politikalarımız</a>ın
+                                tamamını okuduğu ve
+                                kabul ettiği
+                                varsayılır. Eğer politikalarımızı kabul etmiyorsanız uygulamamızı kullanmayınız.
+                                Politiklarımızın tamamını okumak için <a href="politikalarimiz.html">buraya
+                                    tıklayınız.</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <p id="anlik-tarih" class="font-monospace fs-4"></p>
+            </div>
+            <table class="table table-striped table-bordered">
+                <tbody>
+                    <tr>
+                        <td>1. Aşı Tarihi</td>
+                        <td id="asi-tarihi-1"></td>
+                    </tr>
+                    <tr>
+                        <td>2. Aşı Tarihi</td>
+                        <td id="asi-tarihi-2"></td>
+                    </tr>
+                    <tr>
+                        <td>3. Aşı Tarihi</td>
+                        <td id="asi-tarihi-3"></td>
+                    </tr>
+                    <tr>
+                        <td>4. Aşı Tarihi</td>
+                        <td>
+                            <select id="asi-tarihi-4" onchange="dorduncuTarihiSec();" class="form-select fs-5">
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="mt-4 mb-4">
+                <div class="alert alert-primary" role="alert">
+                    <span class="fw-bold">BİLGİLENDİRME</span>
+                    <br>
+                    "4 Dozluk Aşı Şeması: 0., 3., 7. günlerde birer doz ve 14 ile 28. günler arasında
+                    dördüncü doz olmak üzere toplam dört doz uygulanır. <a href="/kaynak.html" class="text-none">Kaynak
+                        (28. sayfa)</a>" Biz 14 ile 28. günün ortası olan 21. günü varsayılan yaptık.
+                    İsterseniz 4. günün tarihine tıklayarak açılır kutudan değiştirebilirsiniz.
+                </div>
+                <h1 class="fs-4">Kuduz Aşısı Takibi Nedir?</h1>
+                <p>
+                    Kuduz aşısı 4 farklı tarihte yapılmaktadır ve bu tarihler zihinden hesaplanarak aşı kartlarında
+                    yazılmaktadır.
+                    Zihinden hesaplanarak yapıldığından dolayı bazen hatalar olur.
+                    Bu sebepten dolayı kuduz aşısı takibi uygulaması aşı tarihlerini otomatik olarak hesaplar ve hata
+                    payını
+                    ortadan kaldırır.
+                </p>
+            </div>
+            <div class="mt-4 mb-4">
+                <h1 class="fs-4">Aşı Tarihlerini Neye Göre Ayarladık?</h1>
+                <p>
+                    Kuduz aşısı tarihlerini resmi devlet sitesine göre ayarladık.
+                    <a class="text-dark" href="/kaynak.html">Kaynağa
+                        gitmek için buraya tıklayınız.</a>
+                </p>
+                <p>
+                    Kaynağın tam url adresi:
+                    https://hsgm.saglik.gov.tr/depo/birimler/zoonotik-vektorel-hastaliklar-db/zoonotik-hastaliklar/2-Kuduz/6-Rehbler/Kuduz_Profilaksi_Rehberi.pdf
+                </p>
+            </div>
+            <div class="alert alert-success" role="alert">
+                Son güncelleme tarihi: 14.08.2022
+            </div>
+            <div class="mt-4">
+                <p>
+                    Talha YILDIZ ve Said Nuri YILDIZ tarafından kodlanmıştır.
+                </p>
+            </div>
+        </div>
+    </div>
+    <script>
+        Date.prototype.addDays = function (days) {
+            var date = new Date(this.valueOf());
+            date.setDate(date.getDate() + days);
+            return date;
+        }
+
+        function tariheGunEkle(eklenecekGunSayisi) {
+            var tarih = new Date();
+            tarih = tarih.addDays(eklenecekGunSayisi)
+            var gun = tarih.getDate();
+            var ay = (tarih.getMonth() + 1);
+            if (gun.toString().length == 1) gun = "0" + gun;
+            if (ay.toString().length == 1) ay = "0" + ay;
+            var yanit = [];
+            yanit.push(gun.toString());
+            yanit.push(ay.toString());
+            yanit.push(tarih.getFullYear());
+            return yanit
+        }
+
+
+        function dorduncuTarihiSec() {
+            localStorage.setItem("tercihEdilenDorduncuTarih", document.getElementById("asi-tarihi-4").selectedIndex);
+        }
+
+
+        function takvimiOlustur() {
+            var tarih = new Date();
+            var saat = tarih.getHours();
+            var dakika = tarih.getMinutes();
+            var saniye = tarih.getSeconds();
+            if (saat.toString().length == 1) saat = "0" + saat;
+            if (dakika.toString().length == 1) dakika = "0" + dakika;
+            if (saniye.toString().length == 1) saniye = "0" + saniye;
+            document.getElementById("anlik-tarih").innerText = saat + ":" + dakika + ":" + saniye
+
+            if (document.getElementById("asi-tarihi-1").innerText != tariheGunEkle(0)[0] + '.' + tariheGunEkle(0)[1] + '.' + tariheGunEkle(0)[2]) {
+                document.getElementById("asi-tarihi-1").innerText = tariheGunEkle(0)[0] + '.' + tariheGunEkle(0)[1] + '.' + tariheGunEkle(0)[2];
+                document.getElementById("asi-tarihi-2").innerText = tariheGunEkle(3)[0] + '.' + tariheGunEkle(3)[1] + '.' + tariheGunEkle(3)[2]
+                document.getElementById("asi-tarihi-3").innerText = tariheGunEkle(7)[0] + '.' + tariheGunEkle(3)[1] + '.' + tariheGunEkle(3)[2]
+
+
+                document.getElementById("asi-tarihi-4").innerHTML = '';
+                var kutuID = 0;
+                for (var i = 14; i <= 28; i++) {
+                    if (localStorage.getItem("tercihEdilenDorduncuTarih") == null && i == 21) {
+                        document.getElementById("asi-tarihi-4").innerHTML += '<option selected>' + tariheGunEkle(i)[0] + "." + tariheGunEkle(i)[1] + "." + tariheGunEkle(i)[2] + '</option>';
+                    } else if (localStorage.getItem("tercihEdilenDorduncuTarih") == kutuID) {
+                        document.getElementById("asi-tarihi-4").innerHTML += '<option selected>' + tariheGunEkle(i)[0] + "." + tariheGunEkle(i)[1] + "." + tariheGunEkle(i)[2] + '</option>';
+                    }
+                    else {
+                        document.getElementById("asi-tarihi-4").innerHTML += '<option>' + tariheGunEkle(i)[0] + "." + tariheGunEkle(i)[1] + "." + tariheGunEkle(i)[2] + '</option>';
+                    }
+                    kutuID++;
+                }
+            }
+        }
+        takvimiOlustur();
+        setInterval(() => {
+            takvimiOlustur();
+        }, 500);
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
