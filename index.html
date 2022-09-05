@@ -62,11 +62,21 @@
                     </tr>
                     <tr>
                         <td>4. Aşı Tarihi</td>
-                        <td id="asi-tarihi-4"></td>
+                        <td>
+                            <select id="asi-tarihi-4" onchange="dorduncuTarihiSec();" class="form-select fs-5">
+                            </select>
+                        </td>
                     </tr>
                 </tbody>
             </table>
             <div class="mt-4 mb-4">
+                <div class="alert alert-primary" role="alert">
+                    <span class="fw-bold">BİLGİLENDİRME</span>
+                    <br>
+                    "4 Dozluk Aşı Şeması: 0., 3., 7. günlerde birer doz ve 14 ile 28. günler arasında
+                    dördüncü doz olmak üzere toplam dört doz uygulanır. <a href="/kaynak.html" class="text-none">Kaynak (28. sayfa)</a>" Biz 14 ile 28. günün ortası olan 21. günü varsayılan yaptık.
+                    İsterseniz 4. günün tarihine tıklayarak açılır kutudan değiştirebilirsiniz.
+                </div>
                 <h1 class="fs-4">Kuduz Aşısı Takibi Nedir?</h1>
                 <p>
                     Kuduz aşısı 4 farklı tarihte yapılmaktadır ve bu tarihler zihinden hesaplanarak aşı kartlarında
@@ -84,6 +94,9 @@
                     <a class="text-dark" href="/kaynak.html">Kaynağa
                         gitmek için buraya tıklayınız.</a>
                 </p>
+                <p>
+                    Kaynağın tam url adresi: https://hsgm.saglik.gov.tr/depo/birimler/zoonotik-vektorel-hastaliklar-db/zoonotik-hastaliklar/2-Kuduz/6-Rehbler/Kuduz_Profilaksi_Rehberi.pdf
+                </p>
             </div>
             <div class="alert alert-success" role="alert">
                 Son güncelleme tarihi: 14.08.2022
@@ -96,12 +109,33 @@
         </div>
     </div>
     <script>
+        Date.prototype.addDays = function (days) {
+            var date = new Date(this.valueOf());
+            date.setDate(date.getDate() + days);
+            return date;
+        }
+
+        function tariheGunEkle(eklenecekGunSayisi) {
+            var tarih = new Date();
+            tarih = tarih.addDays(eklenecekGunSayisi)
+            var gun = tarih.getDate();
+            var ay = (tarih.getMonth() + 1);
+            if (gun.toString().length == 1) gun = "0" + gun;
+            if (ay.toString().length == 1) ay = "0" + ay;
+            var yanit = [];
+            yanit.push(gun.toString());
+            yanit.push(ay.toString());
+            yanit.push(tarih.getFullYear());
+            return yanit
+        }
+
+
+        function dorduncuTarihiSec() {
+            localStorage.setItem("tercihEdilenDorduncuTarih", document.getElementById("asi-tarihi-4").selectedIndex);
+        }
+
+
         function takvimiOlustur() {
-            Date.prototype.addDays = function (days) {
-                var date = new Date(this.valueOf());
-                date.setDate(date.getDate() + days);
-                return date;
-            }
             var tarih = new Date();
             var saat = tarih.getHours();
             var dakika = tarih.getMinutes();
@@ -110,29 +144,26 @@
             if (dakika.toString().length == 1) dakika = "0" + dakika;
             if (saniye.toString().length == 1) saniye = "0" + saniye;
             document.getElementById("anlik-tarih").innerText = saat + ":" + dakika + ":" + saniye
-            var gun = tarih.getDate();
-            var ay = (tarih.getMonth() + 1);
-            if (gun.toString().length == 1) gun = "0" + gun;
-            if (ay.toString().length == 1) ay = "0" + ay;
-            document.getElementById("asi-tarihi-1").innerText = gun + "." + ay + "." + tarih.getFullYear();
-            tarih = tarih.addDays(3)
-            var gun = tarih.getDate();
-            var ay = (tarih.getMonth() + 1);
-            if (gun.toString().length == 1) gun = "0" + gun;
-            if (ay.toString().length == 1) ay = "0" + ay;
-            document.getElementById("asi-tarihi-2").innerText = gun + "." + ay + "." + tarih.getFullYear();
-            tarih = tarih.addDays(4)
-            var gun = tarih.getDate();
-            var ay = (tarih.getMonth() + 1);
-            if (gun.toString().length == 1) gun = "0" + gun;
-            if (ay.toString().length == 1) ay = "0" + ay;
-            document.getElementById("asi-tarihi-3").innerText = gun + "." + ay + "." + tarih.getFullYear();
-            tarih = tarih.addDays(14)
-            var gun = tarih.getDate();
-            var ay = (tarih.getMonth() + 1);
-            if (gun.toString().length == 1) gun = "0" + gun;
-            if (ay.toString().length == 1) ay = "0" + ay;
-            document.getElementById("asi-tarihi-4").innerText = gun + "." + ay + "." + tarih.getFullYear();
+
+
+            document.getElementById("asi-tarihi-1").innerText = tariheGunEkle(0)[0] + '.' + tariheGunEkle(0)[1] + '.' + tariheGunEkle(0)[2];
+            document.getElementById("asi-tarihi-2").innerText = tariheGunEkle(3)[0] + '.' + tariheGunEkle(3)[1] + '.' + tariheGunEkle(3)[2]
+            document.getElementById("asi-tarihi-3").innerText = tariheGunEkle(7)[0] + '.' + tariheGunEkle(3)[1] + '.' + tariheGunEkle(3)[2]
+
+
+            document.getElementById("asi-tarihi-4").innerHTML = '';
+            var kutuID = 0;
+            for (var i = 14; i <= 28; i++) {
+                if (localStorage.getItem("tercihEdilenDorduncuTarih") == null && i == 21) {
+                    document.getElementById("asi-tarihi-4").innerHTML += '<option selected>' + tariheGunEkle(i)[0] + "." + tariheGunEkle(i)[1] + "." + tariheGunEkle(i)[2] + '</option>';
+                } else if (localStorage.getItem("tercihEdilenDorduncuTarih") == kutuID) {
+                    document.getElementById("asi-tarihi-4").innerHTML += '<option selected>' + tariheGunEkle(i)[0] + "." + tariheGunEkle(i)[1] + "." + tariheGunEkle(i)[2] + '</option>';
+                }
+                else {
+                    document.getElementById("asi-tarihi-4").innerHTML += '<option>' + tariheGunEkle(i)[0] + "." + tariheGunEkle(i)[1] + "." + tariheGunEkle(i)[2] + '</option>';
+                }
+                kutuID++;
+            }
         }
         takvimiOlustur();
         setInterval(() => {
